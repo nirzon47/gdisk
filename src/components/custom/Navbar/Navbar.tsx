@@ -3,7 +3,7 @@ import SearchBar from './SearchBar'
 
 const Navbar = () => {
 	return (
-		<nav className='h-16 p-3 flex items-center'>
+		<nav className='h-16 p-3 flex items-center gap-2'>
 			{/* Logo Div */}
 			<div className='flex items-center gap-2 pl-3 w-64'>
 				<img src='logo.png' alt='logo' className='h-9' />
