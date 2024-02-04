@@ -1,3 +1,4 @@
+import IconGroup from './IconGroup'
 import SearchBar from './SearchBar'
 
 const Navbar = () => {
@@ -11,7 +12,7 @@ const Navbar = () => {
 
 			<SearchBar />
 
-			<div className='ml-auto'>test</div>
+			<IconGroup />
 		</nav>
 	)
 }

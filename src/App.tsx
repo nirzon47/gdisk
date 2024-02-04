@@ -1,6 +1,6 @@
 import { ThemeProvider } from '@/components/theme-provider'
 import './lib/firebase-app.ts'
-import Navbar from './components/custom/Navbar.tsx'
+import Navbar from './components/custom/Navbar/Navbar.tsx'
 
 const App = () => {
 	return (
