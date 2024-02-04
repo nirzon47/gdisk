@@ -1,13 +1,12 @@
 import { ThemeProvider } from '@/components/theme-provider'
-import { ModeToggle } from './components/mode-toggle'
 import './lib/firebase-app.ts'
+import Navbar from './components/custom/Navbar.tsx'
 
 const App = () => {
 	return (
-		<ThemeProvider defaultTheme='dark' storageKey='vite-ui-theme'>
-			<div className='dark:bg-zinc-900 dark:text-white min-h-screen'>
-				App
-				<ModeToggle />
+		<ThemeProvider defaultTheme='light' storageKey='vite-ui-theme'>
+			<div className='dark:bg-zinc-900 dark:text-white bg-content-bg text-zinc-950 min-h-screen font-open-sans font-medium'>
+				<Navbar />
 			</div>
 		</ThemeProvider>
 	)
