@@ -2,6 +2,7 @@ import { ThemeProvider } from '@/components/theme-provider'
 import './lib/firebase-app.ts'
 import Sidebar from './components/custom/Sidebar/Sidebar.tsx'
 import Main from './components/custom/Main/Main.tsx'
+// import { Scrollbars } from 'react-custom-scrollbars'
 
 const App = () => {
 	return (

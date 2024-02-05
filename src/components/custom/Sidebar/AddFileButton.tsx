@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button'
 import {
 	Dialog,
 	DialogTrigger,
@@ -6,6 +7,8 @@ import {
 	DialogTitle,
 	DialogDescription,
 } from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { Progress } from '@/components/ui/progress'
 import { Plus } from 'lucide-react'
 
 const AddFileButton = () => {
@@ -13,18 +16,20 @@ const AddFileButton = () => {
 		<Dialog>
 			<DialogTrigger>
 				<div className='p-4 pt-2'>
-					<button className='flex items-center gap-3 py-4 pl-4 pr-5 bg-white rounded-2xl shadow-md hover:bg-opacity-10 duration-300 hover:bg-blue-300'>
+					<div className='flex items-center gap-3 py-4 pl-4 pr-5 bg-white rounded-2xl shadow-md hover:bg-opacity-10 duration-300 hover:bg-blue-300'>
 						<Plus />
 						<span className='text-sm font-medium'>New</span>
-					</button>
+					</div>
 				</div>
 			</DialogTrigger>
 			<DialogContent>
 				<DialogHeader>
-					<DialogTitle>Are you absolutely sure?</DialogTitle>
+					<DialogTitle className='mb-4'>Upload File</DialogTitle>
 					<DialogDescription>
-						This action cannot be undone. This will permanently delete
-						your account and remove your data from our servers.
+						{/* TODO: Make it dynamic */}
+						<Progress className='mb-4' value={80} />
+						<Input type='file' className='mb-2' />
+						<Button>Upload</Button>
 					</DialogDescription>
 				</DialogHeader>
 			</DialogContent>
