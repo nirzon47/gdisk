@@ -16,7 +16,7 @@ const AddFileButton = () => {
 		<Dialog>
 			<DialogTrigger>
 				<div className='p-4 pt-2'>
-					<div className='flex items-center gap-3 py-4 pl-4 pr-5 bg-white rounded-2xl shadow-md hover:bg-opacity-10 duration-300 hover:bg-blue-300'>
+					<div className='flex items-center gap-3 py-4 pl-4 pr-5 duration-300 bg-white shadow-md rounded-2xl hover:bg-opacity-10 hover:bg-blue-300'>
 						<Plus />
 						<span className='text-sm font-medium'>New</span>
 					</div>

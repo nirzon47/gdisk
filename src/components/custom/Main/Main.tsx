@@ -1,6 +1,7 @@
 import Navbar from '../Navbar/Navbar'
 // @ts-expect-error: Importing custom scrollbar component which is made with js
 import { Scrollbars } from 'react-custom-scrollbars'
+import StickyHeader from './StickyHeader'
 
 const Main = () => {
 	return (
@@ -19,7 +20,12 @@ const Main = () => {
 						padding: '1rem',
 					}}
 				>
-					<div className='p-4'></div>
+					<div className='relative p-4 pt-0'>
+						<StickyHeader />
+						<div className='h-96 bg-amber-700'></div>
+						<div className='h-96 bg-amber-700'></div>
+						<div className='h-96 bg-amber-700'></div>
+					</div>
 				</Scrollbars>
 			</div>
 		</div>

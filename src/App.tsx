@@ -7,7 +7,7 @@ import Main from './components/custom/Main/Main.tsx'
 const App = () => {
 	return (
 		<ThemeProvider defaultTheme='light' storageKey='vite-ui-theme'>
-			<div className='dark:bg-zinc-900 dark:text-white bg-content-bg text-zinc-950 min-h-screen font-open-sans font-medium flex'>
+			<div className='flex min-h-screen font-medium dark:bg-zinc-900 dark:text-white bg-content-bg text-zinc-950 font-open-sans'>
 				<Sidebar />
 				<Main />
 			</div>
