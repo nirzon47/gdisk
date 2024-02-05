@@ -22,9 +22,6 @@ const Main = () => {
 				>
 					<div className='relative p-4 pt-0'>
 						<StickyHeader />
-						<div className='h-96 bg-amber-700'></div>
-						<div className='h-96 bg-amber-700'></div>
-						<div className='h-96 bg-amber-700'></div>
 					</div>
 				</Scrollbars>
 			</div>
