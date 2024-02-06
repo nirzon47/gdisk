@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { SettingsSlice } from './settingsSlice'
+import { UserSlice } from './userSlice'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 
 // Creating a Redux store using the configureStore function
@@ -7,6 +8,7 @@ export const store = configureStore({
 	reducer: {
 		// Adding the settings reducer from the SettingsSlice to the store
 		settings: SettingsSlice.reducer,
+		user: UserSlice.reducer,
 	},
 })
 

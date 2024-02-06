@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 // Initial state for the User object
 const initialState = {
-	user: null,
+	user: JSON.parse(localStorage.getItem('user') || 'null'),
 }
 
 // Slice of the Redux state called User

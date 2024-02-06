@@ -22,6 +22,7 @@ const LandingLoginButton = () => {
 
 			const user = result.user
 			dispatch(setUser(user))
+			localStorage.setItem('user', JSON.stringify(user))
 			console.log(user)
 
 			navigate('/')
