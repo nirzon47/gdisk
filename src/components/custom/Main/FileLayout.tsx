@@ -3,7 +3,9 @@ import { useAppDispatch, useAppSelector } from '@/store/store'
 import { AlignJustify, LayoutGrid } from 'lucide-react'
 
 const FileLayout = () => {
+	// Getting the layout type from the store
 	const layoutSetting = useAppSelector((state) => state.settings.layoutType)
+	// Getting the dispatch function from the store
 	const dispatch = useAppDispatch()
 
 	return (
