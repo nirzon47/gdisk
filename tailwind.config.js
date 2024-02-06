@@ -24,6 +24,7 @@ module.exports = {
 				'content-bg': '#F8FAFD',
 				'search-bg': '#E9EEF6',
 				'icons-color-light': '#444746',
+				'file-bg': '#F0F4F9',
 			},
 			keyframes: {
 				'accordion-down': {

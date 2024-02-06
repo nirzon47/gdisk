@@ -46,6 +46,7 @@ const AddFileButton = () => {
 							name: file.name,
 							path: downloadURL,
 							size: file.size,
+							id: id,
 						})
 					})
 				}
