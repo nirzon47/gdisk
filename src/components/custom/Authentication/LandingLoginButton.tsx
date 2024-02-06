@@ -11,22 +11,29 @@ const provider = new GoogleAuthProvider()
 const LandingLoginButton = () => {
 	const [loading, setLoading] = useState<boolean>(false) // Loading state
 	const dispatch = useAppDispatch() // Dispatch function from the store
-	const navigate = useNavigate()
+	const navigate = useNavigate() // Navigate hook from react-router-dom
 
 	const handleLogin = async () => {
-		setLoading(true)
+		setLoading(true) // Set loading state to true
+
+		// Sign in with Google
 		try {
+			// Add scopes to the provider
 			provider.addScope('profile')
 			provider.addScope('email')
 			const result = await signInWithPopup(auth, provider)
 
 			const user = result.user
-			dispatch(setUser(user))
+
+			// Set the user in the store
+			dispatch(setUser(JSON.stringify(user)))
+			// Store the user in localStorage
 			localStorage.setItem('user', JSON.stringify(user))
 
+			// Navigate to the home page
 			navigate('/')
 		} catch (error) {
-			console.log(error)
+			console.error(error)
 		} finally {
 			setLoading(false)
 		}

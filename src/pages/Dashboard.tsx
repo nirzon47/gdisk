@@ -5,9 +5,7 @@ import { Navigate } from 'react-router-dom'
 
 const Dashboard = () => {
 	// Gets the user data from store
-	const userData = JSON.parse(
-		useAppSelector((state) => state.user.user) || 'null'
-	)
+	const userData = useAppSelector((state) => state.user.user)
 
 	// If the user data is null, it redirects to the authentication page
 	return userData ? (
