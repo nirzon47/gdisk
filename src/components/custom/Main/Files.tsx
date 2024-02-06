@@ -1,6 +1,6 @@
 import { db } from '@/lib/firebase-app'
 import { useAppDispatch, useAppSelector } from '@/store/store'
-import { collection, getDocs } from 'firebase/firestore'
+import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
 import {
 	ContextMenu,
@@ -30,26 +30,41 @@ const Files = () => {
 	const [fileList, setFileList] = useState<Array<FileItem>>([]) // State to store the files
 	const [loading, setLoading] = useState<boolean>(false) // State to indicate if the files are loading
 
-	useEffect(() => {
-		const getFiles = async () => {
-			setLoading(true)
-			try {
-				const files: Array<FileItem> = []
-				const querySnapshot = await getDocs(dbRef)
-
-				querySnapshot.forEach((doc) => {
-					files.push(doc.data())
-				})
-
-				dispatch(setFiles(files))
-				setFileList(files)
-			} catch (error) {
-				console.error(error)
-			} finally {
-				setLoading(false)
-			}
+	const deleteFile = async (id: string) => {
+		try {
+			await deleteDoc(doc(dbRef, id))
+			setFileList(fileList.filter((file) => file.id !== id))
+		} catch (error) {
+			console.error(error)
 		}
+	}
 
+	/**
+	 * A function to asynchronously retrieve files and update the state with the result.
+	 *
+	 * @return {void}
+	 */
+	const getFiles = async () => {
+		setLoading(true)
+
+		try {
+			const files: Array<FileItem> = []
+			const querySnapshot = await getDocs(dbRef)
+
+			querySnapshot.forEach((doc) => {
+				files.push(doc.data())
+			})
+
+			dispatch(setFiles(files))
+			setFileList(files)
+		} catch (error) {
+			console.error(error)
+		} finally {
+			setLoading(false)
+		}
+	}
+
+	useEffect(() => {
 		getFiles()
 	}, [])
 
@@ -76,8 +91,12 @@ const Files = () => {
 								</a>
 							</ContextMenuTrigger>
 							<ContextMenuContent>
-								<ContextMenuItem>Rename</ContextMenuItem>
-								<ContextMenuItem>Delete</ContextMenuItem>
+								<ContextMenuItem
+									className='text-red-600'
+									onClick={() => deleteFile(file.id)}
+								>
+									Delete
+								</ContextMenuItem>
 							</ContextMenuContent>
 						</ContextMenu>
 					)
