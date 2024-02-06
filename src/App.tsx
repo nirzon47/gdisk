@@ -1,18 +1,27 @@
-import { ThemeProvider } from '@/components/theme-provider'
 import './lib/firebase-app.ts'
-import Sidebar from './components/custom/Sidebar/Sidebar.tsx'
-import Main from './components/custom/Main/Main.tsx'
+import { ThemeProvider } from '@/components/theme-provider'
 import { store } from './store/store.ts'
 import { Provider } from 'react-redux'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import Dashboard from './pages/Dashboard.tsx'
+import Authentication from './pages/Authentication.tsx'
+
+const routes = createBrowserRouter([
+	{
+		path: '/',
+		element: <Dashboard />,
+	},
+	{
+		path: '/auth',
+		element: <Authentication />,
+	},
+])
 
 const App = () => {
 	return (
 		<Provider store={store}>
 			<ThemeProvider defaultTheme='light' storageKey='vite-ui-theme'>
-				<div className='flex min-h-screen font-medium dark:bg-zinc-900 dark:text-white bg-content-bg text-zinc-950 font-open-sans'>
-					<Sidebar />
-					<Main />
-				</div>
+				<RouterProvider router={routes} />
 			</ThemeProvider>
 		</Provider>
 	)

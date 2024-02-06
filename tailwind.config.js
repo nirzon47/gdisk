@@ -18,7 +18,7 @@ module.exports = {
 		},
 		extend: {
 			fontFamily: {
-				'open-sans': ['Open Sans', 'sans-serif'],
+				geist: ['Geist', 'sans-serif'],
 			},
 			colors: {
 				'content-bg': '#F8FAFD',
