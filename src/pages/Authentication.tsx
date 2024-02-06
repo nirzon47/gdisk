@@ -6,11 +6,12 @@ import { Navigate } from 'react-router-dom'
 
 const Authentication = () => {
 	// Gets the user data from store
-	const userData = useAppSelector((state) => state.user.user)
-	console.log(userData)
+	const userData = JSON.parse(
+		useAppSelector((state) => state.user.user) || 'null'
+	)
 
 	// If the user data is not null, it redirects to the dashboard
-	return userData === 'null' || !userData ? (
+	return !userData ? (
 		<div className='w-screen h-screen overflow-hidden font-geist'>
 			<div className='flex items-center justify-between py-2 md:px-8'>
 				<Logo />

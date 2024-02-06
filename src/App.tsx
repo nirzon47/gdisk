@@ -15,6 +15,10 @@ const routes = createBrowserRouter([
 		path: '/auth',
 		element: <Authentication />,
 	},
+	{
+		path: '*',
+		element: <Authentication />,
+	},
 ])
 
 const App = () => {
