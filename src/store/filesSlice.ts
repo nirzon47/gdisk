@@ -10,6 +10,7 @@ interface FileItem {
 
 const initialState = {
 	files: [] as Array<FileItem>,
+	filteredFiles: [] as Array<FileItem>,
 }
 
 export const FilesSlice = createSlice({
@@ -23,8 +24,12 @@ export const FilesSlice = createSlice({
 		setFiles: (state, action) => {
 			state.files = action.payload
 		},
+
+		setFilteredFiles: (state, action) => {
+			state.filteredFiles = action.payload
+		},
 	},
 })
 
 export default FilesSlice.reducer
-export const { reRender, setFiles } = FilesSlice.actions
+export const { reRender, setFiles, setFilteredFiles } = FilesSlice.actions

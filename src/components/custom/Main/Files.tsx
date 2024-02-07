@@ -8,7 +8,7 @@ import {
 	ContextMenuItem,
 	ContextMenuTrigger,
 } from '@/components/ui/context-menu'
-import { setFiles } from '@/store/filesSlice'
+import { setFiles, setFilteredFiles } from '@/store/filesSlice'
 import { FilesLoader } from './FilesLoader'
 import { nanoid } from '@reduxjs/toolkit'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
@@ -30,12 +30,13 @@ const Files = () => {
 	)
 	// Gets firestore reference which has the id of the user
 	const dbRef = collection(db, userData.uid)
-	// const [fileList, setFileList] = useState<Array<FileItem>>([]) // State to store the files
 	const [loading, setLoading] = useState<boolean>(false) // State to indicate if the files are loading
 
 	const dispatch = useAppDispatch() // Dispatch function from the store
 	const { files } = useAppSelector((state) => state.files) // Gets the files from the store
-	const { layoutType } = useAppSelector((state) => state.settings)
+	const { layoutType } = useAppSelector((state) => state.settings) // Gets the layout type from the store
+	const { filteredFiles } = useAppSelector((state) => state.files)
+
 	const layoutClasses = {
 		grid: 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4',
 		list: 'grid grid-cols-1 gap-4',
@@ -97,6 +98,7 @@ const Files = () => {
 			})
 
 			dispatch(setFiles(files))
+			dispatch(setFilteredFiles(files))
 		} catch (error) {
 			console.error(error)
 		} finally {
@@ -120,7 +122,7 @@ const Files = () => {
 							.fill(true)
 							.map(() => <FilesLoader key={nanoid()} />)}
 					{!loading &&
-						files.map((file) => {
+						filteredFiles.map((file) => {
 							const extension = file.name.split('.').pop()
 
 							return (

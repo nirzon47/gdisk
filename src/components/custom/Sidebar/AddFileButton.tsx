@@ -15,7 +15,7 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { useAppDispatch, useAppSelector } from '@/store/store'
 import { collection, doc, setDoc } from 'firebase/firestore'
 import { nanoid } from '@reduxjs/toolkit'
-import { setFiles } from '@/store/filesSlice'
+import { setFiles, setFilteredFiles } from '@/store/filesSlice'
 
 const AddFileButton = () => {
 	// Get the user data from the store
@@ -71,9 +71,25 @@ const AddFileButton = () => {
 								},
 							])
 						)
+
+						dispatch(
+							setFilteredFiles([
+								...files,
+								{
+									name: file.name,
+									path: downloadURLStored,
+									size: file.size,
+									id: id,
+									timestamp: Date.now(),
+								},
+							])
+						)
 					})
 				}
 			)
+
+			// Removes the file from the state
+			setFile(null)
 		} catch (error) {
 			console.error(error)
 		} finally {
@@ -100,13 +116,15 @@ const AddFileButton = () => {
 					</span>
 				</span>
 			</DialogTrigger>
-			<DialogContent>
+			<DialogContent className='bg-slate-600'>
 				<DialogHeader>
-					<DialogTitle className='mb-4'>Upload File</DialogTitle>
+					<DialogTitle className='mb-4 dark:text-icons-color-dark'>
+						Upload File
+					</DialogTitle>
 					<DialogDescription>
 						<Input
 							type='file'
-							className='mb-2'
+							className='mb-2 dark:text-icons-color-dark dark:file:text-icons-color-dark'
 							onChange={handleFileChange}
 						/>
 						<Button
