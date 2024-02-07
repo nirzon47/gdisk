@@ -9,6 +9,9 @@ import {
 	ContextMenuTrigger,
 } from '@/components/ui/context-menu'
 import { setFiles } from '@/store/filesSlice'
+import { FilesLoader } from './FilesLoader'
+import { nanoid } from '@reduxjs/toolkit'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 // Interface for the file object
 interface FileItem {
@@ -25,15 +28,16 @@ const Files = () => {
 	)
 	// Gets firestore reference which has the id of the user
 	const dbRef = collection(db, userData.uid)
-	// const [changes, setChanges] = useState<number>(0) // State to keep track of changes
-	const dispatch = useAppDispatch() // Dispatch function from the store
-	const [fileList, setFileList] = useState<Array<FileItem>>([]) // State to store the files
+	// const [fileList, setFileList] = useState<Array<FileItem>>([]) // State to store the files
 	const [loading, setLoading] = useState<boolean>(false) // State to indicate if the files are loading
+
+	const dispatch = useAppDispatch() // Dispatch function from the store
+	const { files } = useAppSelector((state) => state.files) // Gets the files from the store
 
 	const deleteFile = async (id: string) => {
 		try {
 			await deleteDoc(doc(dbRef, id))
-			setFileList(fileList.filter((file) => file.id !== id))
+			dispatch(setFiles(files.filter((file) => file.id !== id)))
 		} catch (error) {
 			console.error(error)
 		}
@@ -56,7 +60,6 @@ const Files = () => {
 			})
 
 			dispatch(setFiles(files))
-			setFileList(files)
 		} catch (error) {
 			console.error(error)
 		} finally {
@@ -69,39 +72,54 @@ const Files = () => {
 	}, [])
 
 	return (
-		<div className='grid grid-cols-4 gap-4'>
-			{!loading &&
-				fileList.map((file) => {
-					const extension = file.name.split('.').pop()
+		<TransitionGroup>
+			<CSSTransition
+				timeout={300}
+				classNames='animate-fade-left animate-once animate-duration-300'
+			>
+				<div className='grid grid-cols-4 gap-4'>
+					{loading &&
+						Array(8)
+							.fill(true)
+							.map(() => <FilesLoader key={nanoid()} />)}
+					{!loading &&
+						files.map((file) => {
+							const extension = file.name.split('.').pop()
 
-					return (
-						<ContextMenu key={file.id}>
-							<ContextMenuTrigger>
-								<a href={file.path} target='_blank' rel='noreferrer'>
-									<div className='p-4 duration-150 rounded-xl bg-file-bg hover:bg-blue-100'>
-										<h2 className='mb-2 text-sm font-medium text-zinc-700'>
-											{file.name}
-										</h2>
-										<div className='flex items-center justify-center py-12 mb-1 bg-white rounded-lg'>
-											<h3 className='text-3xl font-bold uppercase text-zinc-500'>
-												{extension}
-											</h3>
-										</div>
-									</div>
-								</a>
-							</ContextMenuTrigger>
-							<ContextMenuContent>
-								<ContextMenuItem
-									className='text-red-600'
-									onClick={() => deleteFile(file.id)}
-								>
-									Delete
-								</ContextMenuItem>
-							</ContextMenuContent>
-						</ContextMenu>
-					)
-				})}
-		</div>
+							return (
+								<ContextMenu key={file.id}>
+									<ContextMenuTrigger>
+										<a
+											href={file.path}
+											target='_blank'
+											rel='noreferrer'
+										>
+											<div className='p-4 duration-150 rounded-xl bg-file-bg hover:bg-blue-100'>
+												<h2 className='mb-2 text-sm font-medium text-zinc-700'>
+													{file.name}
+												</h2>
+												<div className='flex items-center justify-center py-12 mb-1 bg-white rounded-lg'>
+													<h3 className='text-3xl font-bold uppercase text-zinc-500'>
+														{extension}
+													</h3>
+												</div>
+											</div>
+										</a>
+									</ContextMenuTrigger>
+									<ContextMenuContent>
+										<ContextMenuItem
+											className='text-red-600'
+											onClick={() => deleteFile(file.id)}
+										>
+											Delete
+										</ContextMenuItem>
+									</ContextMenuContent>
+								</ContextMenu>
+							)
+						})}
+				</div>
+			</CSSTransition>
+		</TransitionGroup>
 	)
 }
 

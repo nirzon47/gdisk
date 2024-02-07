@@ -12,9 +12,10 @@ import { Plus } from 'lucide-react'
 import { useState } from 'react'
 import { db, storage } from '@/lib/firebase-app'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
-import { useAppSelector } from '@/store/store'
+import { useAppDispatch, useAppSelector } from '@/store/store'
 import { collection, doc, setDoc } from 'firebase/firestore'
 import { nanoid } from '@reduxjs/toolkit'
+import { setFiles } from '@/store/filesSlice'
 
 const AddFileButton = () => {
 	// Get the user data from the store
@@ -27,6 +28,9 @@ const AddFileButton = () => {
 	const [file, setFile] = useState<File | null>(null) // State to store the file
 	const [uploading, setUploading] = useState<boolean>(false) // State to indicate if the file is being uploaded
 	const [openDialog, setOpenDialog] = useState<boolean>(false) // State to indicate if the dialog is open
+
+	const dispatch = useAppDispatch() // Dispatch function from the store
+	const { files } = useAppSelector((state) => state.files) // Gets the files from the store
 
 	const uploadFile = async () => {
 		if (!file) return
@@ -51,6 +55,8 @@ const AddFileButton = () => {
 					})
 				}
 			)
+
+			dispatch(setFiles([...files, { name: file.name, path: file.name }]))
 		} catch (error) {
 			console.error(error)
 		} finally {
