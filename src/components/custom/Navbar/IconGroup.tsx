@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useAppDispatch, useAppSelector } from '@/store/store'
-import { Grip, HelpCircle, Settings, User } from 'lucide-react'
+import { Sun, Moon, HelpCircle, Settings, User } from 'lucide-react'
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { setUser } from '@/store/userSlice'
 import { auth } from '@/lib/firebase-app'
+import { useTheme } from '@/components/theme-provider'
 
 const IconGroup = () => {
 	// Get the user data from the store
@@ -34,11 +35,29 @@ const IconGroup = () => {
 		auth.signOut()
 	}
 
+	const { setTheme } = useTheme()
+
 	return (
-		<div className='flex items-center gap-4 text-icons-color-light'>
-			<HelpCircle className='p-1 duration-150 scale-150 rounded-full cursor-pointer hover:bg-black hover:bg-opacity-10' />
-			<Settings className='p-1 duration-150 scale-150 rounded-full cursor-pointer hover:bg-black hover:bg-opacity-10' />
-			<Grip className='p-1 duration-150 scale-150 rounded-full cursor-pointer hover:bg-black hover:bg-opacity-10' />
+		<div className='flex items-center gap-4 text-icons-color-light dark:text-icons-color-dark'>
+			<HelpCircle className='p-1 duration-150 scale-150 rounded-full cursor-pointer dark:hover:bg-blue-50 hover:bg-black hover:bg-opacity-10 dark:hover:bg-opacity-10' />
+			<DropdownMenu>
+				<DropdownMenuTrigger asChild>
+					<Settings className='p-1 duration-150 scale-150 rounded-full cursor-pointer dark:hover:bg-blue-50 hover:bg-black hover:bg-opacity-10 dark:hover:bg-opacity-10'>
+						<span className='sr-only'>Toggle theme</span>
+					</Settings>
+				</DropdownMenuTrigger>
+				<DropdownMenuContent align='end'>
+					<DropdownMenuItem onClick={() => setTheme('light')}>
+						Light
+					</DropdownMenuItem>
+					<DropdownMenuItem onClick={() => setTheme('dark')}>
+						Dark
+					</DropdownMenuItem>
+					<DropdownMenuItem onClick={() => setTheme('system')}>
+						System
+					</DropdownMenuItem>
+				</DropdownMenuContent>
+			</DropdownMenu>
 
 			{/* Dropdown Menu for user options */}
 			<DropdownMenu>

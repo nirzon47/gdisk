@@ -39,24 +39,41 @@ const AddFileButton = () => {
 
 		try {
 			// Uploads the file in root path of the storage as its file name
+			const id = nanoid() // Generates a unique ID
+			let downloadURLStored // Variable to store the download URL
+
 			await uploadBytes(ref(storageRef, '/' + file.name), file).then(
 				(snapshot) => {
 					// Gets the download URL of the uploaded file
 					getDownloadURL(snapshot.ref).then((downloadURL) => {
-						const id = nanoid() // Generates a unique ID
+						downloadURLStored = downloadURL
+						console.log(downloadURLStored)
 
 						// Makes a new document in the db under the user's ID
 						setDoc(doc(dbRef, id), {
 							name: file.name,
 							path: downloadURL,
 							size: file.size,
+							timestamp: Date.now(),
 							id: id,
 						})
+
+						// Adds the file to the state
+						dispatch(
+							setFiles([
+								...files,
+								{
+									name: file.name,
+									path: downloadURLStored,
+									size: file.size,
+									id: id,
+									timestamp: Date.now(),
+								},
+							])
+						)
 					})
 				}
 			)
-
-			dispatch(setFiles([...files, { name: file.name, path: file.name }]))
 		} catch (error) {
 			console.error(error)
 		} finally {
@@ -74,7 +91,7 @@ const AddFileButton = () => {
 		<Dialog open={openDialog} onOpenChange={setOpenDialog}>
 			<DialogTrigger>
 				<span className='inline-block p-4 pt-2'>
-					<span className='flex items-center gap-3 py-4 pl-4 pr-5 duration-300 bg-white shadow-md rounded-2xl hover:bg-opacity-10 hover:bg-blue-300'>
+					<span className='flex items-center gap-3 py-4 pl-4 pr-5 duration-300 bg-white shadow-md dark:bg-slate-800 rounded-2xl hover:bg-opacity-10 hover:bg-blue-300 dark:hover:bg-slate-900 dark:text-slate-300'>
 						<Plus />
 						<span className='text-sm font-medium'>New</span>
 					</span>

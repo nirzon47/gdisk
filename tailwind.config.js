@@ -25,6 +25,10 @@ module.exports = {
 				'search-bg': '#E9EEF6',
 				'icons-color-light': '#444746',
 				'file-bg': '#F0F4F9',
+				'content-bg-dark': '#071A2B',
+				'dashboard-dark': '#031525',
+				'search-bg-dark': '#0D2136',
+				'icons-color-dark': '#95a5bd',
 			},
 			keyframes: {
 				'accordion-down': {

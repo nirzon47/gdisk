@@ -12,6 +12,8 @@ import { setFiles } from '@/store/filesSlice'
 import { FilesLoader } from './FilesLoader'
 import { nanoid } from '@reduxjs/toolkit'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import { toast } from 'react-toastify'
+import { MoreVertical } from 'lucide-react'
 
 // Interface for the file object
 interface FileItem {
@@ -19,6 +21,7 @@ interface FileItem {
 	path: string
 	size: number
 	id: string
+	timestamp: number
 }
 
 const Files = () => {
@@ -33,11 +36,38 @@ const Files = () => {
 
 	const dispatch = useAppDispatch() // Dispatch function from the store
 	const { files } = useAppSelector((state) => state.files) // Gets the files from the store
+	const { layoutType } = useAppSelector((state) => state.settings)
+	const layoutClasses = {
+		grid: 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4',
+		list: 'grid grid-cols-1 gap-4',
+	}
 
+	const getTime = (timestamp: number) => {
+		const date = new Date(timestamp)
+
+		// Extract date, hour, and minute components
+		const year = date.getFullYear()
+		const month = ('0' + (date.getMonth() + 1)).slice(-2)
+		const day = ('0' + date.getDate()).slice(-2)
+
+		const formattedDateTime = `Modified • ${day}-${month}-${year}`
+
+		return formattedDateTime
+	}
+
+	/**
+	 * Deletes a file with the given id from the database and updates the state accordingly.
+	 *
+	 * @param {string} id - The id of the file to be deleted
+	 * @return {void}
+	 */
 	const deleteFile = async (id: string) => {
 		try {
 			await deleteDoc(doc(dbRef, id))
+			// Remove the file from the state
 			dispatch(setFiles(files.filter((file) => file.id !== id)))
+
+			toast.success('File deleted successfully!')
 		} catch (error) {
 			console.error(error)
 		}
@@ -77,7 +107,7 @@ const Files = () => {
 				timeout={300}
 				classNames='animate-fade-left animate-once animate-duration-300'
 			>
-				<div className='grid grid-cols-4 gap-4'>
+				<div className={layoutClasses[layoutType]}>
 					{loading &&
 						Array(8)
 							.fill(true)
@@ -94,15 +124,39 @@ const Files = () => {
 											target='_blank'
 											rel='noreferrer'
 										>
-											<div className='p-4 duration-150 rounded-xl bg-file-bg hover:bg-blue-100'>
-												<h2 className='mb-2 text-sm font-medium text-zinc-700'>
+											<div
+												className={`${
+													layoutType === 'list' &&
+													'flex flex-row justify-between'
+												} p-4 duration-150 rounded-xl bg-file-bg hover:bg-blue-100 dark:bg-slate-800`}
+											>
+												<h2
+													className={`flex justify-between ${
+														layoutType === 'grid' && 'mb-2'
+													} ${
+														layoutType === 'grid'
+															? 'text-sm'
+															: 'text-base'
+													} font-medium text-zinc-700 dark:text-slate-400`}
+												>
 													{file.name}
 												</h2>
-												<div className='flex items-center justify-center py-12 mb-1 bg-white rounded-lg'>
-													<h3 className='text-3xl font-bold uppercase text-zinc-500'>
+												<div
+													className={`${
+														layoutType === 'grid'
+															? 'flex'
+															: 'hidden'
+													} items-center justify-center h-24 ${
+														layoutType === 'grid' && 'mb-1'
+													} bg-white dark:bg-slate-700 rounded-lg lg:h-32`}
+												>
+													<h3 className='text-3xl font-bold uppercase text-zinc-500 dark:text-slate-400'>
 														{extension}
 													</h3>
 												</div>
+												<p className='mt-2 text-sm text-zinc-500 dark:text-slate-500'>
+													{getTime(file.timestamp)}
+												</p>
 											</div>
 										</a>
 									</ContextMenuTrigger>

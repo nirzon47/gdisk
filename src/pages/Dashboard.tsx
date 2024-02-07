@@ -9,7 +9,7 @@ const Dashboard = () => {
 
 	// If the user data is null, it redirects to the authentication page
 	return userData ? (
-		<div className='flex min-h-screen font-medium dark:bg-zinc-900 dark:text-white bg-content-bg text-zinc-950 font-geist'>
+		<div className='flex min-h-screen font-medium dark:bg-content-bg-dark dark:text-white bg-content-bg text-zinc-950 font-geist dark:text-icons-color-dark'>
 			<Sidebar />
 			<Main />
 		</div>

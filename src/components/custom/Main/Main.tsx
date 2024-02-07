@@ -6,7 +6,7 @@ import Files from './Files'
 
 const Main = () => {
 	return (
-		<div className='w-[calc(100vw-16rem)]'>
+		<div className='w-screen md:w-[calc(100vw-12rem)] lg:w-[calc(100vw-16rem)]'>
 			<Navbar />
 			<div className='px-4 pt-2 pb-4'>
 				<Scrollbars
@@ -17,9 +17,9 @@ const Main = () => {
 						width: '100%',
 						height: 'calc(100vh - 5.5rem)',
 						borderRadius: '1rem',
-						backgroundColor: 'white',
 						padding: '1rem',
 					}}
+					className='bg-white dark:bg-dashboard-dark'
 				>
 					<div className='relative p-4 pt-0'>
 						<StickyHeader />

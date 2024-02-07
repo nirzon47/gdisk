@@ -5,6 +5,7 @@ interface FileItem {
 	path: string
 	size: number
 	id: string
+	timestamp: number
 }
 
 const initialState = {
