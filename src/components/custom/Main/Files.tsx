@@ -13,7 +13,6 @@ import { FilesLoader } from './FilesLoader'
 import { nanoid } from '@reduxjs/toolkit'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { toast } from 'react-toastify'
-import { MoreVertical } from 'lucide-react'
 
 // Interface for the file object
 interface FileItem {
@@ -86,7 +85,15 @@ const Files = () => {
 			const querySnapshot = await getDocs(dbRef)
 
 			querySnapshot.forEach((doc) => {
-				files.push(doc.data())
+				const fileData = doc.data()
+				const fileItem: FileItem = {
+					name: fileData.name,
+					path: fileData.path,
+					size: fileData.size,
+					id: fileData.id,
+					timestamp: fileData.timestamp,
+				}
+				files.push(fileItem)
 			})
 
 			dispatch(setFiles(files))

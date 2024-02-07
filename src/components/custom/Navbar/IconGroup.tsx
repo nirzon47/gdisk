@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useAppDispatch, useAppSelector } from '@/store/store'
-import { Sun, Moon, HelpCircle, Settings, User } from 'lucide-react'
+import { HelpCircle, Settings, User } from 'lucide-react'
 import {
 	DropdownMenu,
 	DropdownMenuContent,
