@@ -67,6 +67,11 @@ const Files = () => {
 			// Remove the file from the state
 			dispatch(setFiles(files.filter((file) => file.id !== id)))
 
+			// Remove the file from the filtered state
+			dispatch(
+				setFilteredFiles(filteredFiles.filter((file) => file.id !== id))
+			)
+
 			toast.success('File deleted successfully!')
 		} catch (error) {
 			console.error(error)

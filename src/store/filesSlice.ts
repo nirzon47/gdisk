@@ -17,14 +17,24 @@ export const FilesSlice = createSlice({
 	name: 'files',
 	initialState,
 	reducers: {
-		reRender: (state) => {
-			state
-		},
-
+		/**
+		 * Sets the files in the state to the payload provided in the action.
+		 *
+		 * @param {type} state - The current state of the application
+		 * @param {type} action - The action containing the payload to set the files
+		 * @return {void}
+		 */
 		setFiles: (state, action) => {
 			state.files = action.payload
 		},
 
+		/**
+		 * Sets the filtered files in the state.
+		 *
+		 * @param {type} state - The current state
+		 * @param {type} action - The action containing the payload
+		 * @return {void}
+		 */
 		setFilteredFiles: (state, action) => {
 			state.filteredFiles = action.payload
 		},
@@ -32,4 +42,4 @@ export const FilesSlice = createSlice({
 })
 
 export default FilesSlice.reducer
-export const { reRender, setFiles, setFilteredFiles } = FilesSlice.actions
+export const { setFiles, setFilteredFiles } = FilesSlice.actions

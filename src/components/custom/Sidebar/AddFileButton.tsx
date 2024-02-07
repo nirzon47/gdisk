@@ -47,7 +47,6 @@ const AddFileButton = () => {
 					// Gets the download URL of the uploaded file
 					getDownloadURL(snapshot.ref).then((downloadURL) => {
 						downloadURLStored = downloadURL
-						console.log(downloadURLStored)
 
 						// Makes a new document in the db under the user's ID
 						setDoc(doc(dbRef, id), {

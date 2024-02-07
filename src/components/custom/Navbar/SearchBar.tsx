@@ -8,14 +8,29 @@ const SearchBar = () => {
 	const dispatch = useAppDispatch()
 	const { files } = useAppSelector((state) => state.files)
 
-	const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchTerm(e.target.value)
+		console.log(e.target.value)
+
+		// If the search term is empty, show all files
+		if (e.target.value === '') {
+			dispatch(setFilteredFiles(files))
+			return
+		}
+
 		// Filters the files based on the search term
 		dispatch(
 			setFilteredFiles(
-				files.filter((file) =>
-					file.name.toLowerCase().includes(searchTerm.toLowerCase())
-				)
+				files.filter((file) => {
+					{
+						// Splitting off the file extension
+						const fileNameArr = file.name.split('.')
+						fileNameArr.pop()
+						const fileName = fileNameArr.join('.').toLowerCase()
+
+						return fileName.includes(e.target.value.toLowerCase())
+					}
+				})
 			)
 		)
 	}
@@ -28,7 +43,7 @@ const SearchBar = () => {
 				placeholder='Search in Disk'
 				className='pl-4 bg-transparent outline-none w-96 placeholder-zinc-500 dark:placeholder-blue-50 dark:placeholder-opacity-60'
 				value={searchTerm}
-				onChange={handleSearchChange}
+				onInput={handleSearchInput}
 			/>
 			<SlidersHorizontal className='p-1 ml-auto duration-150 scale-150 rounded-full cursor-pointer hover:bg-black hover:bg-opacity-10' />
 		</div>
