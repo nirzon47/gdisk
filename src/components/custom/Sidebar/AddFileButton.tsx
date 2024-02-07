@@ -83,7 +83,10 @@ const AddFileButton = () => {
 	}
 
 	// Handles file change
-	const handleFileChange = (e) => {
+	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (!e.target.files) return
+
+		// Sets the file state
 		setFile(e.target.files[0])
 	}
 
