@@ -14,6 +14,7 @@ import { auth } from '@/lib/firebase-app'
 import { useTheme } from '@/components/theme-provider'
 
 const IconGroup = () => {
+	const { setTheme } = useTheme() // Gets the theme from the theme provider
 	// Get the user data from the store
 	const userData = JSON.parse(
 		useAppSelector((state) => state.user.user) as string
@@ -28,14 +29,14 @@ const IconGroup = () => {
 	const handleLogout = () => {
 		// Remove the user information from local storage
 		localStorage.removeItem('user')
+		// Set the theme to 'light'
+		setTheme('light')
 		// Dispatch a setUser action with 'null'
 		dispatch(setUser(null))
 
 		// Sign out of the authentication service
 		auth.signOut()
 	}
-
-	const { setTheme } = useTheme()
 
 	return (
 		<div className='flex items-center gap-4 text-icons-color-light dark:text-icons-color-dark'>

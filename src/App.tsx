@@ -18,7 +18,7 @@ const routes = createBrowserRouter([
 		element: <Authentication />,
 	},
 	{
-		path: '*',
+		path: '/*',
 		element: <Authentication />,
 	},
 ])

@@ -135,7 +135,7 @@ const Files = () => {
 												className={`${
 													layoutType === 'list' &&
 													'flex flex-row justify-between'
-												} p-4 duration-150 rounded-xl bg-file-bg hover:bg-blue-100 dark:bg-slate-800`}
+												} p-4 duration-150 rounded-xl bg-file-bg hover:bg-blue-100 dark:hover:bg-blue-950 dark:bg-slate-800`}
 											>
 												<h2
 													className={`flex justify-between ${
