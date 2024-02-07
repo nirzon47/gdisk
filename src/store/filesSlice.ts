@@ -25,7 +25,7 @@ export const FilesSlice = createSlice({
 		 * @return {void}
 		 */
 		setFiles: (state, action) => {
-			state.files = action.payload
+			state.files = [...action.payload]
 		},
 
 		/**
@@ -36,7 +36,7 @@ export const FilesSlice = createSlice({
 		 * @return {void}
 		 */
 		setFilteredFiles: (state, action) => {
-			state.filteredFiles = action.payload
+			state.filteredFiles = [...action.payload]
 		},
 	},
 })

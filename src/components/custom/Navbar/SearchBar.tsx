@@ -1,3 +1,10 @@
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import { setFilteredFiles } from '@/store/filesSlice'
 import { useAppDispatch, useAppSelector } from '@/store/store'
 import { Search, SlidersHorizontal } from 'lucide-react'
@@ -7,6 +14,7 @@ const SearchBar = () => {
 	const [searchTerm, setSearchTerm] = useState<string>('')
 	const dispatch = useAppDispatch()
 	const { files } = useAppSelector((state) => state.files)
+	const { filteredFiles } = useAppSelector((state) => state.files)
 
 	const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchTerm(e.target.value)
@@ -35,6 +43,49 @@ const SearchBar = () => {
 		)
 	}
 
+	const sort = (type: string) => {
+		switch (type) {
+			case 'name-asc': {
+				const sortedFiles = [...filteredFiles].sort((a, b) => {
+					return a.name.localeCompare(b.name)
+				})
+
+				dispatch(setFilteredFiles(sortedFiles))
+				break
+			}
+			case 'name-desc': {
+				const sortedFiles = [...filteredFiles].sort((a, b) => {
+					return b.name.localeCompare(a.name)
+				})
+
+				dispatch(setFilteredFiles(sortedFiles))
+				break
+			}
+			case 'date-asc': {
+				const sortedFiles = [...filteredFiles].sort((a, b) => {
+					return a.timestamp - b.timestamp
+				})
+
+				dispatch(setFilteredFiles(sortedFiles))
+				break
+			}
+			case 'date-desc': {
+				const sortedFiles = [...filteredFiles].sort((a, b) => {
+					return b.timestamp - a.timestamp
+				})
+
+				dispatch(setFilteredFiles(sortedFiles))
+				break
+			}
+
+			default:
+				dispatch(setFilteredFiles(files))
+		}
+
+		// Resets the search term
+		setSearchTerm('')
+	}
+
 	return (
 		<div className='hidden bg-search-bg dark:bg-search-bg-dark py-3 px-4 rounded-full text-icons-color-light w-[720px] min-w-12 items-center md:flex dark:text-icons-color-dark'>
 			<Search className='p-1 duration-150 scale-150 rounded-full cursor-pointer hover:bg-black hover:bg-opacity-10' />
@@ -45,7 +96,38 @@ const SearchBar = () => {
 				value={searchTerm}
 				onInput={handleSearchInput}
 			/>
-			<SlidersHorizontal className='p-1 ml-auto duration-150 scale-150 rounded-full cursor-pointer hover:bg-black hover:bg-opacity-10' />
+			<DropdownMenu>
+				<DropdownMenuTrigger className='ml-auto'>
+					<SlidersHorizontal className='p-1 duration-150 scale-150 rounded-full outline-none cursor-pointer hover:bg-black hover:bg-opacity-10' />
+				</DropdownMenuTrigger>
+				<DropdownMenuContent>
+					<DropdownMenuLabel>Sort By</DropdownMenuLabel>
+					<DropdownMenuItem
+						className='cursor-pointer'
+						onClick={() => sort('name-asc')}
+					>
+						Name Ascending
+					</DropdownMenuItem>
+					<DropdownMenuItem
+						className='cursor-pointer'
+						onClick={() => sort('name-desc')}
+					>
+						Name Descending
+					</DropdownMenuItem>
+					<DropdownMenuItem
+						className='cursor-pointer'
+						onClick={() => sort('date-asc')}
+					>
+						Date Modified Ascending
+					</DropdownMenuItem>
+					<DropdownMenuItem
+						className='cursor-pointer'
+						onClick={() => sort('date-desc')}
+					>
+						Date Modified Descending
+					</DropdownMenuItem>
+				</DropdownMenuContent>
+			</DropdownMenu>
 		</div>
 	)
 }
