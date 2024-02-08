@@ -48,11 +48,11 @@ const SidebarIconGroup = () => {
 				</div>
 				<div className='flex items-center gap-2 px-4 py-2 duration-100 rounded-full cursor-pointer dark:hover:bg-slate-800 hover:bg-slate-200'>
 					<Trash2 className='w-6 h-6' />
-					<p>Recent</p>
+					<p>Trash</p>
 				</div>
 				<div className='flex items-center gap-2 px-4 py-2 duration-100 rounded-full cursor-pointer dark:hover:bg-slate-800 hover:bg-slate-200'>
 					<Cloud className='w-6 h-6' />
-					<p>Starred</p>
+					<p>Storage</p>
 				</div>
 			</div>
 		</div>
