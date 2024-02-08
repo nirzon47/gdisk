@@ -6,6 +6,7 @@ import {
 	ContextMenu,
 	ContextMenuContent,
 	ContextMenuItem,
+	ContextMenuLabel,
 	ContextMenuTrigger,
 } from '@/components/ui/context-menu'
 import { setFiles, setFilteredFiles } from '@/store/filesSlice'
@@ -208,6 +209,14 @@ const Files = () => {
 										</a>
 									</ContextMenuTrigger>
 									<ContextMenuContent>
+										<ContextMenuLabel>Actions</ContextMenuLabel>
+										<ContextMenuItem
+											onClick={() =>
+												navigator.clipboard.writeText(file.path)
+											}
+										>
+											Copy link
+										</ContextMenuItem>
 										<ContextMenuItem
 											className='text-red-600'
 											onClick={() => deleteFile(file.id)}
