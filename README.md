@@ -41,6 +41,7 @@
 
 -  Responsive Layout: Enjoy a seamless experience across various devices with GDisk's responsive design.
 -  Storage Limit and Live Progress Bar: Keep track of your storage usage with a live progress bar, ensuring you stay within your allocated limit.
+-  Help Icon to get a detailed application guide
 
 ### Personalization
 
