@@ -6,3 +6,7 @@
 	font-family: 'Geist';
 	src: url('./assets/GeistVariableVF.ttf') format('truetype');
 }
+
+.Toastify__toast {
+	@apply bg-white dark:bg-slate-800 text-zinc-800;
+}

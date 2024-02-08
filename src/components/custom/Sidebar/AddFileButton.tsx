@@ -8,7 +8,7 @@ import {
 	DialogDescription,
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
-import { DogIcon, Plus } from 'lucide-react'
+import { Plus } from 'lucide-react'
 import { useState } from 'react'
 import { db, storage } from '@/lib/firebase-app'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
@@ -18,6 +18,7 @@ import { nanoid } from '@reduxjs/toolkit'
 import { setFiles, setFilteredFiles } from '@/store/filesSlice'
 import { setProgress, setSize } from '@/store/settingsSlice'
 import getSize from '@/lib/getSize'
+import { toast } from 'react-toastify'
 
 const AddFileButton = () => {
 	// Get the user data from the store
@@ -44,6 +45,15 @@ const AddFileButton = () => {
 			// Uploads the file in root path of the storage as its file name
 			const id = nanoid() // Generates a unique ID
 			let downloadURLStored // Variable to store the download URL
+			const remainingSpace = 100000000 - sizeInBytes // Calculates the remaining space
+
+			// Checks if the file size exceeds the remaining space
+			if (file.size > remainingSpace) {
+				toast.error('File size exceeding the remaining space')
+				setUploading(false)
+				setFile(null)
+				return
+			}
 
 			await uploadBytes(ref(storageRef, '/' + file.name), file).then(
 				(snapshot) => {
@@ -124,7 +134,7 @@ const AddFileButton = () => {
 					</span>
 				</span>
 			</DialogTrigger>
-			<DialogContent className='bg-slate-600'>
+			<DialogContent className=''>
 				<DialogHeader>
 					<DialogTitle className='mb-4 dark:text-icons-color-dark'>
 						Upload File
