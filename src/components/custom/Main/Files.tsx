@@ -12,7 +12,6 @@ import {
 import { setFiles, setFilteredFiles } from '@/store/filesSlice'
 import { FilesLoader } from './FilesLoader'
 import { nanoid } from '@reduxjs/toolkit'
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { toast } from 'react-toastify'
 import getSize from '@/lib/getSize'
 import { setProgress, setSize, setSizeInBytes } from '@/store/settingsSlice'
@@ -139,97 +138,84 @@ const Files = () => {
 	}, [])
 
 	return (
-		<TransitionGroup>
-			<CSSTransition
-				timeout={300}
-				classNames='animate-fade-left animate-once animate-duration-300'
-			>
-				<div className={layoutClasses[layoutType]}>
-					{loading &&
-						Array(8)
-							.fill(true)
-							.map(() => <FilesLoader key={nanoid()} />)}
-					{!loading &&
-						filteredFiles.map((file) => {
-							const extension = file.name.split('.').pop()
+		<div className={layoutClasses[layoutType]}>
+			{loading &&
+				Array(8)
+					.fill(true)
+					.map(() => <FilesLoader key={nanoid()} />)}
+			{!loading &&
+				filteredFiles.map((file) => {
+					const extension = file.name.split('.').pop()
 
-							return (
-								<ContextMenu key={file.id}>
-									<ContextMenuTrigger>
-										<a
-											href={file.path}
-											target='_blank'
-											rel='noreferrer'
+					return (
+						<ContextMenu key={file.id}>
+							<ContextMenuTrigger>
+								<a href={file.path} target='_blank' rel='noreferrer'>
+									<div
+										className={`${
+											layoutType === 'list' &&
+											'flex flex-col sm:flex-row justify-between items-center gap-2'
+										} p-4 duration-150 rounded-xl bg-file-bg hover:bg-blue-100 dark:hover:bg-blue-950 dark:bg-slate-800 overflow-hidden`}
+									>
+										<h2
+											className={`flex justify-between ${
+												layoutType === 'grid' && 'mb-2'
+											} ${
+												layoutType === 'grid'
+													? 'text-sm'
+													: 'text-base sm:w-1/2'
+											} font-medium text-zinc-700 dark:text-slate-400`}
 										>
-											<div
-												className={`${
-													layoutType === 'list' &&
-													'flex flex-col sm:flex-row justify-between items-center gap-2'
-												} p-4 duration-150 rounded-xl bg-file-bg hover:bg-blue-100 dark:hover:bg-blue-950 dark:bg-slate-800`}
-											>
-												<h2
-													className={`flex justify-between ${
-														layoutType === 'grid' && 'mb-2'
-													} ${
-														layoutType === 'grid'
-															? 'text-sm'
-															: 'text-base sm:w-1/2'
-													} font-medium text-zinc-700 dark:text-slate-400`}
-												>
-													{file.name}
-												</h2>
-												<div
-													className={`${
-														layoutType === 'grid'
-															? 'flex'
-															: 'hidden'
-													} items-center justify-center h-24 ${
-														layoutType === 'grid' && 'mb-1'
-													} bg-white dark:bg-slate-700 rounded-lg lg:h-32`}
-												>
-													<h3 className='text-3xl font-bold uppercase text-zinc-500 dark:text-slate-400'>
-														{extension}
-													</h3>
-												</div>
-												<p
-													className={`text-sm text-zinc-500 dark:text-slate-500 ${
-														layoutType === 'grid' && 'mt-2'
-													}`}
-												>
-													{getSize(file.size)}
-												</p>
-												<p
-													className={`text-sm text-zinc-500 dark:text-slate-500 ${
-														layoutType === 'grid' && 'mt-1'
-													}`}
-												>
-													{getTime(file.timestamp)}
-												</p>
-											</div>
-										</a>
-									</ContextMenuTrigger>
-									<ContextMenuContent>
-										<ContextMenuLabel>Actions</ContextMenuLabel>
-										<ContextMenuItem
-											onClick={() =>
-												navigator.clipboard.writeText(file.path)
-											}
+											{file.name}
+										</h2>
+										<div
+											className={`${
+												layoutType === 'grid' ? 'flex' : 'hidden'
+											} items-center justify-center h-24 ${
+												layoutType === 'grid' && 'mb-1'
+											} bg-white dark:bg-slate-700 rounded-lg lg:h-32`}
 										>
-											Copy link
-										</ContextMenuItem>
-										<ContextMenuItem
-											className='text-red-600'
-											onClick={() => deleteFile(file.id)}
+											<h3 className='text-3xl font-bold uppercase text-zinc-500 dark:text-slate-400'>
+												{extension}
+											</h3>
+										</div>
+										<p
+											className={`text-sm text-zinc-500 dark:text-slate-500 ${
+												layoutType === 'grid' && 'mt-2'
+											}`}
 										>
-											Delete
-										</ContextMenuItem>
-									</ContextMenuContent>
-								</ContextMenu>
-							)
-						})}
-				</div>
-			</CSSTransition>
-		</TransitionGroup>
+											{getSize(file.size)}
+										</p>
+										<p
+											className={`text-sm text-zinc-500 dark:text-slate-500 ${
+												layoutType === 'grid' && 'mt-1'
+											}`}
+										>
+											{getTime(file.timestamp)}
+										</p>
+									</div>
+								</a>
+							</ContextMenuTrigger>
+							<ContextMenuContent>
+								<ContextMenuLabel>Actions</ContextMenuLabel>
+								<ContextMenuItem
+									onClick={() =>
+										navigator.clipboard.writeText(file.path)
+									}
+								>
+									Copy link
+								</ContextMenuItem>
+								<ContextMenuItem
+									className='text-red-600'
+									onClick={() => deleteFile(file.id)}
+								>
+									Delete
+								</ContextMenuItem>
+							</ContextMenuContent>
+						</ContextMenu>
+					)
+				})}
+		</div>
 	)
 }
 
