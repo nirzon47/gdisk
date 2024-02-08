@@ -7,11 +7,11 @@ export const FilesLoader = () => {
 			timeout={300}
 			classNames='animate-fade-left animate-once animate-duration-300'
 		>
-			<div className='flex flex-col space-y-3'>
-				<Skeleton className='h-[125px] w-[250px] rounded-xl' />
-				<div className='space-y-2'>
-					<Skeleton className='h-4 w-[250px]' />
-					<Skeleton className='h-4 w-[200px]' />
+			<div className='flex flex-col items-center gap-4'>
+				<Skeleton className='h-[125px] md:w-[150px] lg:w-[200px] lg:h-[150px] xl:w-[250px] w-[250px] rounded-xl' />
+				<div className='flex flex-col gap-2'>
+					<Skeleton className='h-4 w-[250px] md:w-[150px] lg:w-[200px] xl:w-[250px]' />
+					<Skeleton className='h-4 w-[150px] md:w-[150px] lg:w-[200px] xl:w-[250px]' />
 				</div>
 			</div>
 		</CSSTransition>

@@ -111,6 +111,15 @@ const Files = () => {
 		}
 	}
 
+	const getSize = (bytes: number, decimals: number = 2) => {
+		if (!+bytes) return '0 Bytes'
+		const k = 1024
+		const dm = decimals < 0 ? 0 : decimals
+		const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+		const i = Math.floor(Math.log(bytes) / Math.log(k))
+		return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
+	}
+
 	useEffect(() => {
 		getFiles()
 	}, [])
@@ -141,7 +150,7 @@ const Files = () => {
 											<div
 												className={`${
 													layoutType === 'list' &&
-													'flex flex-row justify-between'
+													'flex flex-col sm:flex-row justify-between items-center gap-2'
 												} p-4 duration-150 rounded-xl bg-file-bg hover:bg-blue-100 dark:hover:bg-blue-950 dark:bg-slate-800`}
 											>
 												<h2
@@ -150,7 +159,7 @@ const Files = () => {
 													} ${
 														layoutType === 'grid'
 															? 'text-sm'
-															: 'text-base'
+															: 'text-base sm:w-1/2'
 													} font-medium text-zinc-700 dark:text-slate-400`}
 												>
 													{file.name}
@@ -168,7 +177,18 @@ const Files = () => {
 														{extension}
 													</h3>
 												</div>
-												<p className='mt-2 text-sm text-zinc-500 dark:text-slate-500'>
+												<p
+													className={`text-sm text-zinc-500 dark:text-slate-500 ${
+														layoutType === 'grid' && 'mt-2'
+													}`}
+												>
+													{getSize(file.size)}
+												</p>
+												<p
+													className={`text-sm text-zinc-500 dark:text-slate-500 ${
+														layoutType === 'grid' && 'mt-1'
+													}`}
+												>
 													{getTime(file.timestamp)}
 												</p>
 											</div>

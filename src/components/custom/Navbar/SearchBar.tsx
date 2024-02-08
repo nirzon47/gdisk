@@ -43,6 +43,12 @@ const SearchBar = () => {
 		)
 	}
 
+	/**
+	 * Sorts the files based on the given type and updates the filtered files.
+	 *
+	 * @param {string} type - the type of sorting to apply
+	 * @return {void}
+	 */
 	const sort = (type: string) => {
 		switch (type) {
 			case 'name-asc': {
