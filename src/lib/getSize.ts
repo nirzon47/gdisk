@@ -1,3 +1,10 @@
+/**
+ * Calculate the size from bytes to the appropriate unit.
+ *
+ * @param {number} bytes - the size in bytes
+ * @param {number} decimals - (optional) the number of decimals to round to, default is 2
+ * @return {string} the size with the appropriate unit
+ */
 const getSize = (bytes: number, decimals: number = 2) => {
 	if (!+bytes) return '0 Bytes'
 	const k = 1024

@@ -126,6 +126,7 @@ const Files = () => {
 			dispatch(setSize(getSize(getTotalSize(files)))) // Updates the size
 			dispatch(setProgress(getTotalSize(files) / 1000000)) // Updates the progress
 		} catch (error) {
+			toast.error('Something went wrong, please try again!')
 			console.error(error)
 		} finally {
 			setLoading(false)

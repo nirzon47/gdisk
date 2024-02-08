@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+// Interface for the file object
 interface FileItem {
 	name: string
 	path: string
@@ -8,6 +9,7 @@ interface FileItem {
 	timestamp: number
 }
 
+// Initial state
 const initialState = {
 	files: [] as Array<FileItem>,
 	filteredFiles: [] as Array<FileItem>,

@@ -104,7 +104,7 @@ const SearchBar = () => {
 			/>
 			<DropdownMenu>
 				<DropdownMenuTrigger className='ml-auto'>
-					<SlidersHorizontal className='p-1 duration-150 scale-150 rounded-full outline-none cursor-pointer hover:bg-black hover:bg-opacity-10' />
+					<SlidersHorizontal className='p-1 duration-150 scale-150 rounded-full cursor-pointer hover:bg-black hover:bg-opacity-10' />
 				</DropdownMenuTrigger>
 				<DropdownMenuContent>
 					<DropdownMenuLabel>Sort By</DropdownMenuLabel>

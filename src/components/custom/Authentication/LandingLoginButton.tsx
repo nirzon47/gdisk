@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { useAppDispatch } from '@/store/store'
 import { setUser } from '@/store/userSlice'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 const provider = new GoogleAuthProvider()
 
@@ -33,6 +34,9 @@ const LandingLoginButton = () => {
 			// Navigate to the home page
 			navigate('/')
 		} catch (error) {
+			toast.error(
+				'Something went wrong, please try again! Contact nirzon47 on GitHub if the issue persists.'
+			)
 			console.error(error)
 		} finally {
 			setLoading(false)

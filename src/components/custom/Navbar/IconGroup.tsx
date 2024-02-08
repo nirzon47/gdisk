@@ -48,6 +48,7 @@ const IconGroup = () => {
 					</Settings>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align='end'>
+					<DropdownMenuLabel>Theme</DropdownMenuLabel>
 					<DropdownMenuItem onClick={() => setTheme('light')}>
 						Light
 					</DropdownMenuItem>

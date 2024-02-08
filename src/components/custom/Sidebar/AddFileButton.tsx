@@ -109,6 +109,7 @@ const AddFileButton = () => {
 			// Removes the file from the state
 			setFile(null)
 		} catch (error) {
+			toast.error('Something went wrong, please try again!')
 			console.error(error)
 		} finally {
 			setUploading(false)

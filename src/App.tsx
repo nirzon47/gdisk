@@ -8,6 +8,7 @@ import Authentication from './pages/Authentication.tsx'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
+// Routes for react router dom CSR
 const routes = createBrowserRouter([
 	{
 		path: '/',
@@ -27,8 +28,11 @@ const App = () => {
 	const { theme } = useTheme()
 
 	return (
+		// Redux Provider
 		<Provider store={store}>
+			{/* Theme Context Provider */}
 			<ThemeProvider defaultTheme='light' storageKey='vite-ui-theme'>
+				{/* React Router Provider */}
 				<RouterProvider router={routes} />
 			</ThemeProvider>
 			<ToastContainer
