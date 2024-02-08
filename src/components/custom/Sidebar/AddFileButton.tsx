@@ -8,7 +8,7 @@ import {
 	DialogDescription,
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
-import { Plus } from 'lucide-react'
+import { DogIcon, Plus } from 'lucide-react'
 import { useState } from 'react'
 import { db, storage } from '@/lib/firebase-app'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
@@ -16,6 +16,8 @@ import { useAppDispatch, useAppSelector } from '@/store/store'
 import { collection, doc, setDoc } from 'firebase/firestore'
 import { nanoid } from '@reduxjs/toolkit'
 import { setFiles, setFilteredFiles } from '@/store/filesSlice'
+import { setProgress, setSize } from '@/store/settingsSlice'
+import getSize from '@/lib/getSize'
 
 const AddFileButton = () => {
 	// Get the user data from the store
@@ -31,6 +33,7 @@ const AddFileButton = () => {
 
 	const dispatch = useAppDispatch() // Dispatch function from the store
 	const { files } = useAppSelector((state) => state.files) // Gets the files from the store
+	const { sizeInBytes } = useAppSelector((state) => state.settings) // Gets the size (numeric) from the store
 
 	const uploadFile = async () => {
 		if (!file) return
@@ -57,6 +60,7 @@ const AddFileButton = () => {
 							id: id,
 						})
 
+						// Have to do it separately because of the async nature
 						// Adds the file to the state
 						dispatch(
 							setFiles([
@@ -71,6 +75,7 @@ const AddFileButton = () => {
 							])
 						)
 
+						// Adds the file to the filtered files
 						dispatch(
 							setFilteredFiles([
 								...files,
@@ -83,6 +88,10 @@ const AddFileButton = () => {
 								},
 							])
 						)
+
+						// Updates the size and progress
+						dispatch(setSize(getSize(sizeInBytes + file.size)))
+						dispatch(setProgress((sizeInBytes + file.size) / 1000000))
 					})
 				}
 			)

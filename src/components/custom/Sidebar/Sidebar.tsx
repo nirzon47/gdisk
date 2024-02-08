@@ -1,6 +1,7 @@
 import AddFileButton from './AddFileButton'
 import Logo from './Logo'
 import SidebarIconGroup from './SidebarIconGroup'
+import Size from './Size'
 
 const Sidebar = () => {
 	return (
@@ -8,6 +9,7 @@ const Sidebar = () => {
 			<Logo />
 			<AddFileButton />
 			<SidebarIconGroup />
+			<Size />
 		</div>
 	)
 }

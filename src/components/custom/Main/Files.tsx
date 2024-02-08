@@ -13,6 +13,8 @@ import { FilesLoader } from './FilesLoader'
 import { nanoid } from '@reduxjs/toolkit'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { toast } from 'react-toastify'
+import getSize from '@/lib/getSize'
+import { setProgress, setSize, setSizeInBytes } from '@/store/settingsSlice'
 
 // Interface for the file object
 interface FileItem {
@@ -64,18 +66,33 @@ const Files = () => {
 	const deleteFile = async (id: string) => {
 		try {
 			await deleteDoc(doc(dbRef, id))
+
+			const newFiles = files.filter((file) => file.id !== id)
 			// Remove the file from the state
-			dispatch(setFiles(files.filter((file) => file.id !== id)))
+			dispatch(setFiles(newFiles))
 
 			// Remove the file from the filtered state
 			dispatch(
 				setFilteredFiles(filteredFiles.filter((file) => file.id !== id))
 			)
+			dispatch(setSizeInBytes(getTotalSize(newFiles))) // Updates the size in bytes
+			dispatch(setSize(getSize(getTotalSize(newFiles)))) // Updates the size
+			dispatch(setProgress(getTotalSize(newFiles) / 1000000)) // Updates the progress
 
 			toast.success('File deleted successfully!')
 		} catch (error) {
 			console.error(error)
 		}
+	}
+
+	/**
+	 * Calculate the total size of the files.
+	 *
+	 * @param {Array<FileItem>} files - an array of FileItem objects
+	 * @return {number} the total size of the files
+	 */
+	const getTotalSize = (files: Array<FileItem>) => {
+		return files.reduce((total, file) => total + file.size, 0)
 	}
 
 	/**
@@ -102,22 +119,17 @@ const Files = () => {
 				files.push(fileItem)
 			})
 
-			dispatch(setFiles(files))
-			dispatch(setFilteredFiles(files))
+			// Updates the states
+			dispatch(setFiles(files)) // Updates the files state
+			dispatch(setFilteredFiles(files)) // Updates the filtered files state
+			dispatch(setSizeInBytes(getTotalSize(files))) // Updates the size in bytes
+			dispatch(setSize(getSize(getTotalSize(files)))) // Updates the size
+			dispatch(setProgress(getTotalSize(files) / 1000000)) // Updates the progress
 		} catch (error) {
 			console.error(error)
 		} finally {
 			setLoading(false)
 		}
-	}
-
-	const getSize = (bytes: number, decimals: number = 2) => {
-		if (!+bytes) return '0 Bytes'
-		const k = 1024
-		const dm = decimals < 0 ? 0 : decimals
-		const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
-		const i = Math.floor(Math.log(bytes) / Math.log(k))
-		return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
 	}
 
 	useEffect(() => {

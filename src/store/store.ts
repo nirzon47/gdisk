@@ -7,7 +7,7 @@ import { FilesSlice } from './filesSlice'
 // Creating a Redux store using the configureStore function
 export const store = configureStore({
 	reducer: {
-		// Adding the settings reducer from the SettingsSlice to the store
+		// Adding the reducers from the imported slices to the store
 		settings: SettingsSlice.reducer,
 		user: UserSlice.reducer,
 		files: FilesSlice.reducer,
