@@ -10,3 +10,7 @@
 .Toastify__toast {
 	@apply bg-white dark:bg-slate-800 text-zinc-800;
 }
+
+.Toastify__toast-body > div:last-child {
+	@apply font-geist dark:text-slate-400 text-slate-900;
+}
