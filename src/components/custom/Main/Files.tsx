@@ -140,13 +140,7 @@ const Files = () => {
 	}, [])
 
 	return (
-		<div
-			className={
-				filteredFiles.length > 0
-					? layoutClasses[layoutType]
-					: 'flex items-center justify-center h-full'
-			}
-		>
+		<>
 			{loading && (
 				<div className={`${layoutClasses[layoutType]}`}>
 					{Array(8)
@@ -156,93 +150,102 @@ const Files = () => {
 						))}
 				</div>
 			)}
+			<div
+				className={
+					filteredFiles.length > 0
+						? layoutClasses[layoutType]
+						: 'flex items-center justify-center h-full'
+				}
+			>
+				{!loading && filteredFiles.length === 0 && (
+					<div className='grid items-center w-full h-full gap-2 mt-16 text-center'>
+						<img
+							src='no-files.svg'
+							alt='No files!'
+							className='w-48 mx-auto sm:w-56 md:w-64 lg:w-72'
+						/>
+						<h2 className='text-xl font-normal text-zinc-700'>
+							Welcome to Drive, the home for all your files
+						</h2>
+						<p className='text-zinc-600'>
+							Use the “New” button to upload
+						</p>
+					</div>
+				)}
+				{!loading &&
+					filteredFiles.map((file) => {
+						const extension = file.name.split('.').pop()
 
-			{!loading && filteredFiles.length === 0 && (
-				<div className='grid items-center w-full h-full gap-2 mt-16 text-center'>
-					<img
-						src='no-files.svg'
-						alt='No files!'
-						className='w-48 mx-auto sm:w-56 md:w-64 lg:w-72'
-					/>
-					<h2 className='text-xl font-normal text-zinc-700'>
-						Welcome to Drive, the home for all your files
-					</h2>
-					<p className='text-zinc-600'>Use the “New” button to upload</p>
-				</div>
-			)}
-			{!loading &&
-				filteredFiles.map((file) => {
-					const extension = file.name.split('.').pop()
-
-					return (
-						<ContextMenu key={file.id}>
-							<ContextMenuTrigger>
-								<a href={file.path} target='_blank' rel='noreferrer'>
-									<div
-										className={`${
-											layoutType === 'list' &&
-											'flex flex-col sm:flex-row justify-between items-center gap-2'
-										} p-4 duration-150 rounded-xl bg-file-bg hover:bg-blue-100 dark:hover:bg-blue-950 dark:bg-slate-800 overflow-hidden`}
-									>
-										<h2
-											className={`flex justify-between ${
-												layoutType === 'grid' && 'mb-2'
-											} ${
-												layoutType === 'grid'
-													? 'text-sm'
-													: 'text-base sm:w-1/2'
-											} font-medium text-zinc-700 dark:text-slate-400`}
-										>
-											{file.name}
-										</h2>
+						return (
+							<ContextMenu key={file.id}>
+								<ContextMenuTrigger>
+									<a href={file.path} target='_blank' rel='noreferrer'>
 										<div
 											className={`${
-												layoutType === 'grid' ? 'flex' : 'hidden'
-											} items-center justify-center h-24 ${
-												layoutType === 'grid' && 'mb-1'
-											} bg-white dark:bg-slate-700 rounded-lg lg:h-32`}
+												layoutType === 'list' &&
+												'flex flex-col sm:flex-row justify-between items-center gap-2'
+											} p-4 duration-150 rounded-xl bg-file-bg hover:bg-blue-100 dark:hover:bg-blue-950 dark:bg-slate-800 overflow-hidden`}
 										>
-											<h3 className='text-3xl font-bold uppercase text-zinc-500 dark:text-slate-400'>
-												{extension}
-											</h3>
+											<h2
+												className={`flex justify-between ${
+													layoutType === 'grid' && 'mb-2'
+												} ${
+													layoutType === 'grid'
+														? 'text-sm'
+														: 'text-base sm:w-1/2'
+												} font-medium text-zinc-700 dark:text-slate-400`}
+											>
+												{file.name}
+											</h2>
+											<div
+												className={`${
+													layoutType === 'grid' ? 'flex' : 'hidden'
+												} items-center justify-center h-24 ${
+													layoutType === 'grid' && 'mb-1'
+												} bg-white dark:bg-slate-700 rounded-lg lg:h-32`}
+											>
+												<h3 className='text-3xl font-bold uppercase text-zinc-500 dark:text-slate-400'>
+													{extension}
+												</h3>
+											</div>
+											<p
+												className={`text-sm text-zinc-500 dark:text-slate-500 ${
+													layoutType === 'grid' && 'mt-2'
+												}`}
+											>
+												{getSize(file.size)}
+											</p>
+											<p
+												className={`text-sm text-zinc-500 dark:text-slate-500 ${
+													layoutType === 'grid' && 'mt-1'
+												}`}
+											>
+												{getTime(file.timestamp)}
+											</p>
 										</div>
-										<p
-											className={`text-sm text-zinc-500 dark:text-slate-500 ${
-												layoutType === 'grid' && 'mt-2'
-											}`}
-										>
-											{getSize(file.size)}
-										</p>
-										<p
-											className={`text-sm text-zinc-500 dark:text-slate-500 ${
-												layoutType === 'grid' && 'mt-1'
-											}`}
-										>
-											{getTime(file.timestamp)}
-										</p>
-									</div>
-								</a>
-							</ContextMenuTrigger>
-							<ContextMenuContent>
-								<ContextMenuLabel>Actions</ContextMenuLabel>
-								<ContextMenuItem
-									onClick={() =>
-										navigator.clipboard.writeText(file.path)
-									}
-								>
-									Copy link
-								</ContextMenuItem>
-								<ContextMenuItem
-									className='text-red-600'
-									onClick={() => deleteFile(file.id)}
-								>
-									Delete
-								</ContextMenuItem>
-							</ContextMenuContent>
-						</ContextMenu>
-					)
-				})}
-		</div>
+									</a>
+								</ContextMenuTrigger>
+								<ContextMenuContent>
+									<ContextMenuLabel>Actions</ContextMenuLabel>
+									<ContextMenuItem
+										onClick={() =>
+											navigator.clipboard.writeText(file.path)
+										}
+									>
+										Copy link
+									</ContextMenuItem>
+									<ContextMenuItem
+										className='text-red-600'
+										onClick={() => deleteFile(file.id)}
+									>
+										Delete
+									</ContextMenuItem>
+								</ContextMenuContent>
+							</ContextMenu>
+						)
+					})}
+			</div>
+		</>
 	)
 }
 
