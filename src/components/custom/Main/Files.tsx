@@ -147,12 +147,16 @@ const Files = () => {
 					: 'flex items-center justify-center h-full'
 			}
 		>
-			<div className={`${layoutClasses[layoutType]}`}>
-				{loading &&
-					Array(8)
+			{loading && (
+				<div className={`${layoutClasses[layoutType]}`}>
+					{Array(8)
 						.fill(true)
-						.map(() => <FilesLoader key={nanoid()} />)}
-			</div>
+						.map(() => (
+							<FilesLoader key={nanoid()} />
+						))}
+				</div>
+			)}
+
 			{!loading && filteredFiles.length === 0 && (
 				<div className='grid items-center w-full h-full gap-2 mt-16 text-center'>
 					<img
