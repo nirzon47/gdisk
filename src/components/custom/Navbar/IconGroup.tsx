@@ -55,6 +55,7 @@ const IconGroup = () => {
 
 	return (
 		<div className='flex items-center gap-4 text-icons-color-light dark:text-icons-color-dark'>
+			{/* Help icon */}
 			<Dialog>
 				<DialogTrigger>
 					<HelpCircle className='p-1 duration-150 scale-150 rounded-full cursor-pointer dark:hover:bg-blue-50 hover:bg-black hover:bg-opacity-10 dark:hover:bg-opacity-10' />
@@ -65,6 +66,7 @@ const IconGroup = () => {
 							App Guide
 						</DialogTitle>
 						<DialogDescription className='p-8'>
+							{/* Carousel inside the dialog */}
 							<Carousel>
 								<CarouselContent>
 									<CarouselItem>
@@ -131,6 +133,8 @@ const IconGroup = () => {
 					</DialogHeader>
 				</DialogContent>
 			</Dialog>
+
+			{/* Dropdown Menu for theme */}
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
 					<Settings className='p-1 duration-150 scale-150 rounded-full cursor-pointer dark:hover:bg-blue-50 hover:bg-black hover:bg-opacity-10 dark:hover:bg-opacity-10'>

@@ -37,13 +37,15 @@ const Files = () => {
 	const dispatch = useAppDispatch() // Dispatch function from the store
 	const { files } = useAppSelector((state) => state.files) // Gets the files from the store
 	const { layoutType } = useAppSelector((state) => state.settings) // Gets the layout type from the store
-	const { filteredFiles } = useAppSelector((state) => state.files)
+	const { filteredFiles } = useAppSelector((state) => state.files) // Gets the filtered files from the store
 
+	// Tailwind classes according to the layout
 	const layoutClasses = {
 		grid: 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4',
 		list: 'grid grid-cols-1 gap-4',
 	}
 
+	// Helper function to get time in string from epoch timestamp
 	const getTime = (timestamp: number) => {
 		const date = new Date(timestamp)
 
