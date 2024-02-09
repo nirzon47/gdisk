@@ -15,7 +15,6 @@ import { nanoid } from '@reduxjs/toolkit'
 import { toast } from 'react-toastify'
 import getSize from '@/lib/getSize'
 import { setProgress, setSize, setSizeInBytes } from '@/store/settingsSlice'
-import { Dice1 } from 'lucide-react'
 
 // Interface for the file object
 interface FileItem {
