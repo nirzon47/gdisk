@@ -15,6 +15,7 @@ import { nanoid } from '@reduxjs/toolkit'
 import { toast } from 'react-toastify'
 import getSize from '@/lib/getSize'
 import { setProgress, setSize, setSizeInBytes } from '@/store/settingsSlice'
+import { Dice1 } from 'lucide-react'
 
 // Interface for the file object
 interface FileItem {
@@ -140,11 +141,30 @@ const Files = () => {
 	}, [])
 
 	return (
-		<div className={layoutClasses[layoutType]}>
+		<div
+			className={
+				filteredFiles.length > 0
+					? layoutClasses[layoutType]
+					: 'flex items-center justify-center h-full'
+			}
+		>
 			{loading &&
 				Array(8)
 					.fill(true)
 					.map(() => <FilesLoader key={nanoid()} />)}
+			{!loading && filteredFiles.length === 0 && (
+				<div className='grid items-center w-full h-full gap-2 mt-16 text-center'>
+					<img
+						src='no-files.svg'
+						alt='No files!'
+						className='w-48 mx-auto sm:w-56 md:w-64 lg:w-72'
+					/>
+					<h2 className='text-xl font-normal text-zinc-700'>
+						Welcome to Drive, the home for all your files
+					</h2>
+					<p className='text-zinc-600'>Use the “New” button to upload</p>
+				</div>
+			)}
 			{!loading &&
 				filteredFiles.map((file) => {
 					const extension = file.name.split('.').pop()
